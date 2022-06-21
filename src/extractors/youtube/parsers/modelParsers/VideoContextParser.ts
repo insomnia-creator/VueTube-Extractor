@@ -22,18 +22,22 @@ export default class VideoContextParser extends abstractParser {
   }
 
   private parseVideo(): videoCard {
-    return {
-      title: this.metadata.title,
-      details: this.metadata.metadataDetails,
-      thumbnails: new Thumbnail(this.contextData.videoData.thumbnail),
-      videoId: this.contextData.onTap.innertubeCommand.watchEndpoint.videoId,
-      channelData: {
-        channelId: this.channelId,
-        channelUrl: `/channel/${this.channelId}`,
-        channelThumbnails: this.channelAvatar?.image.sources,
-      },
-      type: "video",
-    };
+    if (this.contextData?.onTap?.innertubeCommand?.watchEndpoint.videoId){
+      console.log("this shouldn't happen: ",this.contextData)
+    }
+      return {
+        title: this.metadata.title,
+        details: this.metadata.metadataDetails,
+        thumbnails: new Thumbnail(this.contextData.videoData.thumbnail),
+        videoId:
+          this.contextData?.onTap?.innertubeCommand?.watchEndpoint.videoId,
+        channelData: {
+          channelId: this.channelId,
+          channelUrl: `/channel/${this.channelId}`,
+          channelThumbnails: this.channelAvatar?.image.sources,
+        },
+        type: "video",
+      };
   }
 
   private parsePlaylist(): playlist {
